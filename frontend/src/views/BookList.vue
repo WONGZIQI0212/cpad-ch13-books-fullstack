@@ -17,7 +17,7 @@ async function load() {
   error.value = '';
   try {
     const { data } = await api.get('/api/books', { params: { q: q.value || undefined } });
-    books.value = data.data;
+    books.value = Array.isArray(data) ? data : (data.data || []);
   } catch (e) {
     error.value = e.message;
   }
