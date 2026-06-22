@@ -1,0 +1,17 @@
+.env
+.env.local
+.env.*.local
+
+vendor/
+node_modules/
+dist/
+
+frontend/android/.gradle/
+frontend/android/app/build/
+frontend/android/build/
+
+*.keystore
+*.jks
+*.log
+.DS_Store
+Thumbs.db

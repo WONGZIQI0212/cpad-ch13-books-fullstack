@@ -1,0 +1,26 @@
+{
+  "name": "scsm2223/books-api-secure",
+  "description": "Chapter 12 Books API with JWT and backend security hardening",
+  "type": "project",
+  "license": "proprietary",
+  "require": {
+    "php": ">=8.1",
+    "firebase/php-jwt": "^6.10",
+    "slim/psr7": "^1.7",
+    "slim/slim": "^4.14",
+    "vlucas/phpdotenv": "^5.6"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/"
+    }
+  },
+  "config": {
+    "audit": {
+      "block-insecure": false
+    }
+  },
+  "scripts": {
+    "serve": "php -S localhost:8000 -t public"
+  }
+}

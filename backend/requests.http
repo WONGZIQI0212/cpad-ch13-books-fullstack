@@ -1,0 +1,97 @@
+@baseUrl = http://localhost:8000
+@memberToken = paste-member-token-here
+@adminToken = paste-admin-token-here
+
+### Security headers are present
+GET {{baseUrl}}/api/books
+
+### Login as member
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "member@books.test",
+  "password": "password"
+}
+
+### Login as admin
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@books.test",
+  "password": "password"
+}
+
+### Rate limit test - run 6 times with wrong password
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@books.test",
+  "password": "wrong"
+}
+
+### Current user
+GET {{baseUrl}}/auth/me
+Authorization: Bearer {{memberToken}}
+
+### Validation test - future year should fail
+POST {{baseUrl}}/api/books
+Authorization: Bearer {{memberToken}}
+Content-Type: application/json
+
+{
+  "title": "Future Book",
+  "author": "X",
+  "year": 9999
+}
+
+### XSS-safe JSON test
+POST {{baseUrl}}/api/books
+Authorization: Bearer {{memberToken}}
+Content-Type: application/json
+
+{
+  "title": "<script>alert('hi')</script>",
+  "author": "X",
+  "year": 2024
+}
+
+### Member IDOR test - book 1 belongs to admin, expect 403
+PUT {{baseUrl}}/api/books/1
+Authorization: Bearer {{memberToken}}
+Content-Type: application/json
+
+{
+  "title": "Hijacked"
+}
+
+### Admin can update any book
+PUT {{baseUrl}}/api/books/1
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "title": "Admin Updated"
+}
+
+### Member delete should fail with 403
+DELETE {{baseUrl}}/api/books/2
+Authorization: Bearer {{memberToken}}
+
+### Admin delete should pass
+DELETE {{baseUrl}}/api/books/2
+Authorization: Bearer {{adminToken}}
+
+### CORS allowed origin
+OPTIONS {{baseUrl}}/api/books
+Origin: http://localhost:5173
+
+### CORS unknown origin
+OPTIONS {{baseUrl}}/api/books
+Origin: http://attacker.example
+
+### Admin audit log
+GET {{baseUrl}}/admin/audit
+Authorization: Bearer {{adminToken}}
