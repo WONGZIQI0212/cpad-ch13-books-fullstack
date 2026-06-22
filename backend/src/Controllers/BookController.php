@@ -19,7 +19,11 @@ final class BookController
 
     public function index(Request $request, Response $response): Response
     {
-        return $this->json($response, $this->books->all());
+        $params = $request->getQueryParams();
+
+        return $this->json($response, [
+            'data' => $this->books->all((string)($params['q'] ?? '')),
+        ]);
     }
 
     public function show(Request $request, Response $response, array $args): Response

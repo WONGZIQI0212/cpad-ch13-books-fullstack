@@ -71,6 +71,7 @@ final class AuthController
             'token_type' => 'Bearer',
             'expires_in' => $this->jwt->ttl(),
             'access_token' => $token,
+            'user' => $this->users->findById((int)$user['id']),
         ]);
     }
 

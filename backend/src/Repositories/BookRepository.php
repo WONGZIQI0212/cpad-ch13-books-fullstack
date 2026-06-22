@@ -11,8 +11,21 @@ final class BookRepository
     {
     }
 
-    public function all(): array
+    public function all(?string $query = null): array
     {
+        $query = trim((string)$query);
+        if ($query !== '') {
+            $stmt = $this->pdo->prepare(
+                'SELECT id, title, author, year, genre, created_by, created_at, updated_at
+                 FROM books
+                 WHERE title LIKE :q OR author LIKE :q
+                 ORDER BY id'
+            );
+            $stmt->execute([':q' => '%' . $query . '%']);
+
+            return $stmt->fetchAll();
+        }
+
         return $this->pdo
             ->query('SELECT id, title, author, year, genre, created_by, created_at, updated_at FROM books ORDER BY id')
             ->fetchAll();
