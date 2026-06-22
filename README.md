@@ -1,6 +1,7 @@
 # Lab 13 Books Full-Stack Deployment
 
 SCSM2223 Chapter 13 project built from the Chapter 12 secure Books API.
+Recommended GitHub repo name: `scsm2223-ch13-books-fullstack`
 
 ## Structure
 
@@ -36,6 +37,10 @@ npm run dev
 ```
 
 The development frontend expects the API at `http://localhost:8000`.
+
+## GitHub
+
+See [`GITHUB_SETUP.md`](GITHUB_SETUP.md) for the exact remote and push commands.
 
 ## Production Build
 
