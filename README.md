@@ -47,10 +47,19 @@ npm run preview
 
 Deploy the generated `frontend/dist` folder to a static host.
 
+For Vercel or Netlify, set this environment variable in the hosting dashboard:
+
+```text
+VITE_API_BASE_URL=https://your-deployed-api-url
+```
+
+After the frontend is deployed, add the frontend URL to the backend `CORS_ALLOWED_ORIGINS`.
+
 ## Capacitor Android
 
 ```bat
 cd frontend
+npm install @capacitor/core @capacitor/cli @capacitor/android
 npm run build
 npx cap add android
 npx cap sync android
