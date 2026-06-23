@@ -10,6 +10,12 @@ COPY . /var/www/html
 COPY --from=vendor /app/vendor /var/www/html/vendor
 
 RUN sed -i 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-available/000-default.conf \
-    && a2enmod rewrite
+    && a2enmod rewrite \
+    && { \
+        echo '<Directory /var/www/html/public>'; \
+        echo '    AllowOverride All'; \
+        echo '    Require all granted'; \
+        echo '</Directory>'; \
+    } >> /etc/apache2/apache2.conf
 
 EXPOSE 80
